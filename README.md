@@ -1,8 +1,6 @@
 # Rukins
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/rukins`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Manage cloudformation stacks with templates created with cfndsl 
 
 ## Installation
 
@@ -22,7 +20,60 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+### Credentials
+
+Credentials can be specified for each camand using IAM role, profile from the AWS redentials file or leave blank to use your defaults
+
+    $ rukins create --region=ap-southeast-2 --stack_name=dev01 --role=role_name --account=dev # specify the role
+
+    $ rukins create --region=ap-southeast-2 --stack_name=dev01 --profile=profile_name --account=dev # specify the profile
+
+    $ rukins create --region=ap-southeast-2 --stack_name=dev01 --account=dev # leave aws-sdk to find credentials
+
+### Commands
+
+Check version
+
+    $ rukins rukins -v
+
+Help!
+
+    $ rukins help # show all commands and required parameters
+
+    $ rukins help [COMMAND] # show all parameters for a specific command
+
+Create new cloudformation project
+
+    $ rukins new -p project
+
+Generate JSON templates with cfndsl into output directory
+
+    $ rukins generate
+
+Validate JSON cloudfromation templates agains Aws
+
+    $ rukins validate -r ap-southeast-2
+
+Copy JSON templates to s3 source bucket
+
+    $ rukins deploy -r ap-southeast-2
+
+Create cloudformation template
+
+    $ rukins create -r ap-southeast-2 -s dev01 -a dev
+
+Update cloudformation template
+
+    $ rukins update -r ap-southeast-2 -s dev01 -a dev
+
+Delete cloudformation template
+
+    $ rukins delete -r ap-southeast-2 -s dev01 -a dev
+
+Wait for cloudformation task to complete
+
+    $ rukins wait -r ap-southeast-2 -s dev01 -a dev
+
 
 ## Development
 
@@ -32,7 +83,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/rukins.
+Bug reports and pull requests are welcome on GitHub at https://github.com/guslington/rukins.
 
 
 ## License

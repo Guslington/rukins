@@ -1,0 +1,4 @@
+source 'http://templates.gusvine.me'
+
+## Add you templates here
+template 'vpc'

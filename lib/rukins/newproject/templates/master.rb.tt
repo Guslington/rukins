@@ -1,0 +1,51 @@
+require 'cfndsl'
+
+CloudFormation do
+  # Template metadata
+  AWSTemplateFormatVersion '2010-09-09'
+  Description "#{application_name} - Master v#{cf_version}"
+
+  Parameter("EnvironmentType"){
+    Type 'String'
+    AllowedValues ['prod', 'dev']
+    Default 'dev'
+  }
+
+  Parameter("EnvironmentName") {
+    Type 'String'
+  }
+
+  Parameter("RDSSnapshotID") {
+    Type 'String'
+    Default ''
+  }
+
+  Parameter("StackOctet") {
+    Type 'String'
+    AllowedPattern '[0-9]*'
+  }
+
+  Parameter("CostCenter") {
+    Type 'String'
+    Default ''
+  }
+
+  maximum_availability_zones.times do |az|
+    Parameter("Nat#{az}EIPAllocationId") {
+      Type 'String'
+      Default 'dynamic'
+    }
+  end
+
+  vpc_params = {
+    EnvironmentType: Ref('EnvironmentType'),
+    EnvironmentName: Ref('EnvironmentName'),
+    StackOctet: Ref('StackOctet'),
+    CostCenter: Ref('CostCenter')
+  }
+
+  maximum_availability_zones.times do |az|
+    vpc_params.merge!("Nat#{az}EIPAllocationId" => Ref("Nat#{az}EIPAllocationId"))
+  end
+
+end

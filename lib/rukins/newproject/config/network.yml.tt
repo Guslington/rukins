@@ -1,0 +1,31 @@
+stacks:
+  vpc:
+    subnet_allocation: 0
+
+backplaneAccess:
+  rules:
+    -
+      IpProtocol: tcp
+      FromPort: 22
+      ToPort: 22
+    -
+      IpProtocol: udp
+      FromPort: 123
+      ToPort: 123
+
+opsAccess:
+  ips:
+    - 169.254.100.101/32
+  rules:
+    -
+      IpProtocol: tcp
+      FromPort: 22
+      ToPort: 22
+devAccess:
+  ips:
+    - 169.254.100.100/32
+  rules:
+    -
+      IpProtocol: tcp
+      FromPort: 22
+      ToPort: 22

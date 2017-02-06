@@ -1,5 +1,9 @@
+require 'fileutils'
+
 require 'rukins/cfndsl/cfngenerator'
 require 'rukins/core/utils'
+require 'rukins/core/rukinsfile'
+
 module Rukins
   class Generate
 
@@ -8,11 +12,14 @@ module Rukins
     end
 
     def run
+
+      Rukins::Rukinsfile.new
+
       if Rukins::Utils.templates_config_exists
         templates_params = Rukins::Utils.load_template_params
         files = templates_from_config(templates_params["templates"])
       else
-        templates = Dir["templates/**/*.rb"]
+        templates = Dir["templates/**/*.rb",".templates/**/*.rb"]
         files = all_templates_in_directory(templates)
       end
 
@@ -33,7 +40,7 @@ module Rukins
       files = []
       templates.each do |template|
         filename = "#{template}"
-        output = template.sub! 'templates/', ''
+        output = template.slice(template.index("/")..-1)[1..-1]
         output = output.sub! '.rb', '.json'
         files << { filename: filename, output: "output/#{output}" }
       end

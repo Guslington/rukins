@@ -240,6 +240,16 @@ module Rukins
       task.run
     end
 
+    desc "vendor [template]", "Vendor shared templates"
+    long_desc <<-LONG
+    Vendor shared templates
+    LONG
+    method_option :version, aliases: :v, type: :string, desc: "version of template to vendor"
+    def vendor(template)
+      task = Rukins::Vendor.new(template,options)
+      task.run
+    end
+
     desc "new [project]", "Create new cloudfromation project"
     long_desc <<-LONG
     Creates a new cloudfromation project with folder structure and config files.
@@ -252,7 +262,7 @@ module Rukins
     method_option :source_bucket, aliases: :s, type: :string, default: 'source.example.com', desc: "source s3 bucket name"
     def new(project)
       task = Rukins::New.new(project,options)
-      task.run
+      task.new_project
     end
 
     private

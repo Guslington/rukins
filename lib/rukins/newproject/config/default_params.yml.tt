@@ -1,0 +1,34 @@
+application_name: <%= @project %>
+dns_domain: <%= @options[:dns_domain] %>
+source_bucket: <%= @options[:source_bucket] %>
+maximum_availability_zones: 5
+
+accounts:
+  ops: '<%= @options[:ops_account] %>'
+  dev: '<%= @options[:dev_account] %>'
+  prod: '<%= @options[:prod_account] %>'
+
+EnvironmentType:
+  prod:
+    Ec2Type: t2.small
+  dev:
+    Ec2Type: t2.micro
+
+AccountId:
+  '<%= @options[:dev_account] %>':
+    KeyName: <%= @project %>dev
+    DnsDomain: <%= @options[:dns_domain] %>
+    DefaultSslCertId: paste_dev_key_arn_here
+  '<%= @options[:prod_account] %>':
+    KeyName: <%= @project %>prod
+    DnsDomain: <%= @options[:dns_domain] %>
+    DefaultSslCertId: paste_prod_key_arn_here
+
+secrets:
+  stores:
+    dev:
+      bucket: secrets.dev.<%= @options[:dns_domain] %>
+      key: secrets
+    prod:
+      bucket: secrets.prod.<%= @options[:dns_domain] %>
+      key: secrets
